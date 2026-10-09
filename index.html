@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SlotSync · Book a time with me</title>
+<meta name="description" content="SlotSync: a scheduling app like Calendly, built on Google Apps Script. Share your real availability, let people book a time, and send calendar invites automatically. Live demo with sample data.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%234f46e5'/><stop offset='1' stop-color='%2306b6d4'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='url(%23g)'/><rect x='8' y='10' width='16' height='14' rx='2' fill='none' stroke='white' stroke-width='2'/><path d='M8 14h16M12 7v5M20 7v5' stroke='white' stroke-width='2' stroke-linecap='round'/><path d='M13 19l2 2 4-4' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<style>
+  html, body { margin: 0; height: 100%; background: #0f172a; font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  #loading { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #cbd5e1; text-align: center; padding: 0 16px; }
+  .mark { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #4f46e5, #06b6d4); display: grid; place-items: center; }
+  .spin { width: 22px; height: 22px; border: 3px solid rgba(129,140,248,.25); border-top-color: #818cf8; border-radius: 50%; animation: s 0.8s linear infinite; }
+  @keyframes s { to { transform: rotate(360deg); } }
+  #loading a { color: #a5b4fc; font-size: 13px; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity 0.3s; background: #f8fafc; }
+  iframe.ready { opacity: 1; }
+</style>
+</head>
+<body>
+  <div id="loading">
+    <div class="mark"><svg width="24" height="24" viewBox="0 0 32 32"><rect x="5" y="7" width="22" height="20" rx="3" fill="none" stroke="white" stroke-width="2.4"/><path d="M5 13h22M11 3v6M21 3v6" stroke="white" stroke-width="2.4" stroke-linecap="round"/><path d="M12 20l3 3 6-6" stroke="white" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="spin"></div>
+    <div id="msg">Opening SlotSync…</div>
+    <a id="direct" href="#" target="_blank" rel="noopener">Taking a while? Open it directly</a>
+  </div>
+
+  <iframe id="app" title="SlotSync" allow="clipboard-write"></iframe>
+
+  <script>
+    // ⬇️ Paste your Apps Script Web app URL here (Deploy → Manage deployments → copy the URL ending in /exec)
+    const APP_URL = 'https://script.google.com/macros/s/AKfycbze6yuoQgb-mv5SWSE7g9py6vtpDgxO99PHpzZEbZIpqkviHL35p3nAC4EdS16kCXTi/exec';
+
+    // Pass booking links through: ?u=mia (booking page), &e=30min (meeting type), &t=… (a shared time), ?b=… (manage a booking)
+    const params = new URLSearchParams(location.search), keep = new URLSearchParams();
+    ['u', 'e', 't', 'b'].forEach(k => { if (params.get(k)) keep.set(k, params.get(k)); });
+    const src = APP_URL + (keep.toString() ? '?' + keep.toString() : '');
+
+    const frame = document.getElementById('app');
+    document.getElementById('direct').href = src;
+    if (APP_URL.indexOf('script.google.com') < 0) {
+      document.getElementById('msg').textContent = 'Almost there: paste your Apps Script /exec link into index.html.';
+      document.querySelector('.spin').style.display = 'none';
+    } else {
+      frame.addEventListener('load', () => frame.classList.add('ready'));
+      frame.src = src;
+    }
+  </script>
+</body>
+</html>
