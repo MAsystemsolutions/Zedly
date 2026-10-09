@@ -1,10 +1,10 @@
-# SlotSync
+# Zedly
 
-**Share your real availability. Let people book a time. Invites go out automatically.**
+**Schedule effortlessly.** Share your real availability, let people book a time, and invites go out automatically.
 
 A scheduling app like Calendly, built entirely on Google Workspace. Google Apps Script runs the app, Google Sheets stores settings and bookings, and Google Calendar is the real calendar: free times come from your actual schedule, and every booking lands on it with an invite sent to the guest.
 
-### 👉 [Try the live demo](https://masystemsolutions.github.io/SlotSync/)
+### 👉 [Try the live demo](https://masystemsolutions.github.io/Zedly/)
 
 Pick a demo role (**Mia, owner** or **Jordan, team member**), or click **Book a meeting as a guest** to see what your clients see. No sign-up needed. Everything is sample data, emails are previewed instead of sent, and the demo resets every night.
 
@@ -50,6 +50,7 @@ apps-script/
 ├── Code.gs       # server: sign-in, availability engine, calendar, bookings, emails, demo data
 └── index.html    # the whole front end: booking pages, calendar, dashboard
 index.html        # GitHub Pages wrapper that loads the live app and passes booking links through
+logo.png          # Zedly logo, used in emails when LOGO_URL is set
 ```
 
 ## Run your own copy
@@ -63,7 +64,7 @@ index.html        # GitHub Pages wrapper that loads the live app and passes book
 ### Real use (your own calendar)
 
 1. Make a **second copy** with a new blank Sheet (keep the demo separate).
-2. In `CONFIG`: `DEMO_MODE: false`, `CALENDAR_MODE: 'google'`, and fill in `OWNER_EMAIL`, `OWNER_NAME`, `OWNER_SLUG`, `OWNER_PASSWORD`. Set `PUBLIC_URL` to your GitHub Pages link so booking links use it.
+2. In `CONFIG`: `DEMO_MODE: false`, `CALENDAR_MODE: 'google'`, and fill in `OWNER_EMAIL`, `OWNER_NAME`, `OWNER_SLUG`, `OWNER_PASSWORD`. Set `PUBLIC_URL` to your GitHub Pages link so booking links use it, and `LOGO_URL` to that link + `logo.png` to show the logo in emails.
 3. For Google Meet links: **Services → + → Google Calendar API → Add**.
 4. Run `setup`. It creates your admin account, a "30 min with you" meeting type and the hourly reminder trigger.
 5. **Delete the password from `OWNER_PASSWORD`**, save, and deploy.
